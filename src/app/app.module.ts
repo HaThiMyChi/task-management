@@ -18,6 +18,7 @@ import { AgGridModule } from 'ag-grid-angular';
     TaskListComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

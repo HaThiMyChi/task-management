@@ -1,18 +1,13 @@
-<div *ngIf="isBrowser">
-    <ag-grid-angular
-      style="width: 100%; height: 500px;"
-      class="ag-theme-alpine"
-      [rowData]="tasks$ | async"
-      [columnDefs]="columnDefs"
-      [defaultColDef]="defaultColDef"
-      [rowSelection]="rowSelection"
-      (gridReady)="onGridReady($event)">
-    </ag-grid-angular>
+<div class="task-list-container">
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    [rowData]="tasks"
+    [columnDefs]="columnDefs"
+    [animateRows]="true"
+    [rowHeight]="35"
+  ></ag-grid-angular>
 </div>
 
-<div *ngIf="!isBrowser">
-    <p>Loading...</p>
-</div>
 
 <!-- <ag-grid-angular
   style="width: 700px; height: 500px;"

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../models/task.model';
-import { catchError } from 'rxjs/operators';
+import { catchError, map} from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
@@ -9,43 +9,36 @@ import { Observable, throwError } from 'rxjs';
 })
 export class TaskService {
   // private apiUrl = 'http://localhost:3000/tasks';
-  private apiUrl = 'db.json';
+  // private tasksUrl  = 'http://localhost:3000/tasks';
+  // private tasks: Task[] = [];
 
-  constructor(private http: HttpClient) {}
+  // constructor(private http: HttpClient) {}
 
   // getTasks(): Observable<Task[]> {
-  //   return this.http.get<Task[]>(this.apiUrl).pipe(
+  //   console.log('data get task', this.http.get<any>(this.tasksUrl))
+  //   return this.http.get<any>(this.tasksUrl);
+  // }
+
+  private taskUrl = 'http://localhost:3000/tasks';
+  constructor(private http: HttpClient) {}
+
+  getTasks(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.taskUrl);
+  }
+  
+  // getTasks(): Observable<Task[]> {
+  //   return this.http.get<Task[]>(this.tasksUrl).pipe(
+  //     map(tasks => {
+  //       this.tasks = tasks;
+  //       console.log('data get tasks', tasks)
+  //       return tasks;
+  //     }),
   //     catchError(this.handleError)
   //   );
   // }
 
-  
-  getTasks(): Observable<Task[]> {
-    console.log('data task', this.http.get<Task[]>(this.apiUrl))
-    return this.http.get<Task[]>(this.apiUrl);
-  }
-
-  addTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl, task);
-  }
-
-  updateTask(task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}/${task.id}`, task);
-  }
-
-  deleteTask(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
-
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = 'Url error!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('Something went wrong; please try again later.'));
   }
 }

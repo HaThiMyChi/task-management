@@ -5,7 +5,12 @@ export const selectTaskState = createFeatureSelector<TaskState>('tasks');
 
 export const selectAllTasks = createSelector(
   selectTaskState,
-  (state: TaskState) => state.tasks
+  (state: TaskState) => state.tasks || []
+);
+
+export const selectTaskLoading = createSelector(
+  selectTaskState,
+  (state: TaskState) => state.loading
 );
 
 export const selectTaskError = createSelector(
